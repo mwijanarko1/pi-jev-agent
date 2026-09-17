@@ -1,0 +1,41 @@
+{
+  "name": "pi-jev-agent",
+  "version": "0.2.0",
+  "description": "Step-level Jev tool routing for Pi",
+  "type": "module",
+  "license": "MIT",
+  "author": "Mikhail Wijanarko",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mwijanarko1/pi-jev-agent.git"
+  },
+  "homepage": "https://github.com/mwijanarko1/pi-jev-agent#readme",
+  "bugs": {
+    "url": "https://github.com/mwijanarko1/pi-jev-agent/issues"
+  },
+  "keywords": [
+    "pi-package",
+    "pi",
+    "jev",
+    "tool-routing",
+    "typesafe"
+  ],
+  "files": [
+    "extensions",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "bun test",
+    "check": "bun build extensions/index.ts --target=node --packages=external --outfile=/tmp/pi-jev-agent.js"
+  },
+  "pi": {
+    "extensions": [
+      "./extensions/index.ts"
+    ]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "typebox": "*"
+  }
+}
