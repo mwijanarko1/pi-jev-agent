@@ -2,6 +2,8 @@
 
 `pi-jev-agent` is an experimental extension for the [Pi coding agent](https://pi.dev). It uses [TypeSafe Jev](https://docs.typesafe.ai) to choose the next tool before each language-model step.
 
+**Links:** [npm](https://www.npmjs.com/package/pi-jev-agent) · [GitHub](https://github.com/mwijanarko1/pi-jev-agent) · [TypeSafe API keys](https://console.typesafe.ai/settings/keys)
+
 Pi normally gives the language model every active tool definition and lets the model decide what to call. That tool catalog can consume substantial input context when many extensions are installed. `pi-jev-agent` moves the bounded tool-selection decision to Jev, then gives the main model only the selected tool and its schema.
 
 The main model still performs the actual coding work, generates tool arguments, interprets results, and writes responses. Jev only decides which tool should be available next, or whether the model should answer without a tool.
@@ -68,6 +70,31 @@ To try a local checkout without installing it:
 ```sh
 PI_JEV_ENABLED=1 pi -e /absolute/path/to/pi-jev-agent
 ```
+
+## Set up with an AI agent
+
+Give a coding agent with terminal access either the [npm package](https://www.npmjs.com/package/pi-jev-agent) or [GitHub repository](https://github.com/mwijanarko1/pi-jev-agent), then paste this prompt:
+
+```text
+Install and configure pi-jev-agent for my Pi coding agent.
+
+Package: https://www.npmjs.com/package/pi-jev-agent
+Repository: https://github.com/mwijanarko1/pi-jev-agent
+TypeSafe keys: https://console.typesafe.ai/settings/keys
+
+1. Read the package README, then verify `pi --version` is 0.85.1 or newer and `node --version` is 20 or newer. Do not replace or upgrade a working Pi installation unless necessary.
+2. Check `pi list`. If pi-jev-agent is not installed, run `pi install npm:pi-jev-agent`. Preserve every existing Pi package and setting.
+3. I must create the TypeSafe API key myself. Open https://console.typesafe.ai/settings/keys for me, or tell me to open it. Never ask me to paste the key into chat, never print it, and never commit it to a repository.
+4. Ask whether I want session-only or persistent environment setup:
+   - Session-only: tell me to run `export TYPESAFE_API_KEY="..."` and `export PI_JEV_ENABLED=1` in the terminal that will launch Pi.
+   - Persistent: use my existing secret manager or environment-management convention. Explain where the key will be stored and get my approval before writing it. Do not put the key in a project file.
+5. Restart Pi or run `/reload` so the package registry refreshes.
+6. Verify without spending API credit first: launch Pi with `PI_JEV_ENABLED=1 PI_JEV_STUB=1`, confirm `/jev-status` works, then exit stub mode.
+7. Ask before making one live TypeSafe routing request. If approved, run a small test and report the selected tool, latency, and token usage without exposing the key.
+8. Report exactly what you installed or changed and how to disable it (`unset PI_JEV_ENABLED` or remove the package with `pi remove npm:pi-jev-agent`).
+```
+
+An agent cannot create the TypeSafe account or safely choose how your secret should persist without your involvement. The prompt keeps those steps user-controlled while letting the agent handle installation and verification.
 
 ## Privacy and security
 
